@@ -52,7 +52,7 @@ export default function Home() {
         </h2>
       </div>
 
-      <Table aria-label="TODO: coming soon...">
+      <Table aria-label="TODO: coming soon..." isStriped layout="fixed">
         <TableHeader>
           <TableColumn>CODE</TableColumn>
           <TableColumn>DESCRIPTION</TableColumn>
