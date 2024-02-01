@@ -15,7 +15,7 @@ import {
   Navbar as NextUINavbar,
 } from "@nextui-org/navbar";
 
-import { Button } from "@nextui-org/button";
+import { Button } from "@nextui-org/react";
 import { Input } from "@nextui-org/input";
 import { Kbd } from "@nextui-org/kbd";
 import { Link } from "@nextui-org/link";

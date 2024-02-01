@@ -1,29 +1,36 @@
-"use client";
+'use client';
 
 import {
+  Button,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
   useDisclosure,
-} from "@nextui-org/modal";
-import { subtitle, title } from "@/components/primitives";
+} from '@nextui-org/react';
+import { button as buttonStyles } from '@nextui-org/theme';
+import { copyTextToClipboard } from '@/utils/copyToClipboard';
+import { siteConfig } from '@/config/site';
+import { subtitle, title } from '@/components/primitives';
 
-import { Button } from "@nextui-org/button";
-import { Link } from "@nextui-org/link";
-import { button as buttonStyles } from "@nextui-org/theme";
-import { copyTextToClipboard } from "@/utils/copyToClipboard";
-import { siteConfig } from "@/config/site";
-
-const code = "FNRT8Y";
-const red = "#FF3347";
+const codes = [
+  { code: '4DUQXZ', discount: '$200 off' },
+  { code: 'FNRT8Y', discount: '$100 off' },
+];
+const red = '#FF3347';
 
 export default function Home() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const handleCopyCode = () => {
-    console.log("copying code");
+  const handleCopyCode = code => {
     copyTextToClipboard(code);
     onOpen();
   };
@@ -33,66 +40,71 @@ export default function Home() {
       <div className="inline-block max-w-lg text-center justify-center">
         <h1 className={title()}>Peloton&nbsp;</h1>
         <h1 className={title()} style={{ color: red }}>
-          Promo Code&nbsp;
+          Promo Codes&nbsp;
         </h1>
         <br />
-        <h2 className={subtitle({ class: "mt-4" })}>
-          Use code <strong>{code}</strong> at checkout to get{" "}
-          <span className={title({ size: "xs" })} style={{ color: red }}>
-            $100 off
-          </span>{" "}
-          accessories when ordering a Peloton Bike, Bike+, Tread, or Row.*
+        <h2 className={subtitle({ class: 'mt-4' })}>
+          Use code <strong>{codes[0].code}</strong> at checkout by 9/12/24 to get{' '}
+          <span className={title({ size: 'xs' })} style={{ color: red }}>
+            $200 off
+          </span>{' '}
+          accessories when ordering a Peloton Bike, Bike+, Tread, Tread+, or Row.*
         </h2>
       </div>
 
-      <div className="flex gap-3">
-        <Button radius="full" onClick={handleCopyCode}>
-          Copy Code
-        </Button>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.peloton}
-        >
-          Visit Peloton
-        </Link>
-      </div>
+      <Table aria-label="TODO: coming soon...">
+        <TableHeader>
+          <TableColumn>CODE</TableColumn>
+          <TableColumn>DESCRIPTION</TableColumn>
+          <TableColumn>STATUS</TableColumn>
+        </TableHeader>
+        <TableBody>
+          {codes.map(({ code, discount }, index) => {
+            return (
+              <TableRow key={index}>
+                <TableCell>{code}</TableCell>
+                <TableCell>{discount}</TableCell>
+                <TableCell>
+                  <div className="flex gap-3">
+                    <Button
+                      radius="full"
+                      className="bg-gradient-to-tr from-pink-500 to-yellow-500 text-white shadow-lg"
+                      onClick={() => handleCopyCode(code)}
+                    >
+                      Copy Code
+                    </Button>
+                    <Button
+                      href={siteConfig.links.peloton}
+                      as={Link}
+                      radius="full"
+                      showAnchorIcon
+                      variant="bordered"
+                    >
+                      Visit Peloton
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
 
-      {/* <div className="mt-8">
-        <Snippet hideSymbol hideCopyButton variant="flat">
-          <span>
-            www.onepeloton.com{" "}
-            <Link
-              isExternal
-              className={buttonStyles({
-                color: "primary",
-                radius: "sm",
-                variant: "faded",
-              })}
-              href={siteConfig.links.peloton}
-            >
-              Visit Peloton
-            </Link>
-          </span>
-        </Snippet>
-      </div> */}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
-          {(onClose) => (
+          {onClose => (
             <>
-              <ModalHeader className="flex flex-col gap-1">
-                Copied to clipboard
-              </ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">Copied to clipboard</ModalHeader>
               <ModalBody>
                 <p>
-                  Visit{" "}
+                  Visit{' '}
                   <a
                     href="https://www.onepeloton.com/"
-                    style={{ textDecoration: "underline" }}
+                    style={{ textDecoration: 'underline' }}
                     target="_blank"
                   >
                     www.onepeloton.com
-                  </a>{" "}
+                  </a>{' '}
                   to use code.
                 </p>
               </ModalBody>
@@ -103,8 +115,8 @@ export default function Home() {
                 <Link
                   isExternal
                   className={buttonStyles({
-                    variant: "bordered",
-                    radius: "full",
+                    variant: 'bordered',
+                    radius: 'full',
                   })}
                   href={siteConfig.links.peloton}
                 >
